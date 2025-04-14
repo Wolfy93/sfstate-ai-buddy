@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    return render_template('sign.html',greetings = GREETINGS, chat_history =CHAT_HISTORY)
+    return render_template('sign2.html',greetings = GREETINGS, chat_history =CHAT_HISTORY)
 
 @app.route("/api/chatbot")
 def sfsu_api():

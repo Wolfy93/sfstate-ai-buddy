@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+  <style>
+    :root {
+      --brand-purple: #6750a4;
+      --brand-purple-light: #f6f5fa;
+      --border-color: #e0e0e0;
+      --text-dark: #1a1a1a;
+      --text-secondary: #6e6e80;
+    }
+    
+    body {
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #fff;
+      color: var(--text-dark);
+    }
+    
+    /* Landing Page */
+    .landing-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+    
+    .landing-logo {
+      width: 40px;
+      height: 40px;
+      margin-bottom: 1.5rem;
+    }
+    
+    .landing-title {
+      font-weight: 700;
+      font-size: 2.75rem;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+    
+    .landing-subtitle {
+      font-size: 1.25rem;
+      color: var(--text-secondary);
+      margin-bottom: 2.5rem;
+      max-width: 600px;
+    }
+    
+    .landing-button {
+      background-color: var(--brand-purple);
+      color: white;
+      border: none;
+      font-weight: 500;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+    }
+    
+    .landing-button:hover {
+      background-color: #5b4693;
+      color: white;
+    }
+    
+    .landing-examples {
+      margin-top: 4rem;
+    }
+    
+    .example-card {
+      border: 1px solid var(--border-color);
+      border-radius: 0.75rem;
+      padding: 1.5rem;
+      height: 100%;
+    }
+    
+    .example-card h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+    
+    .example-card p {
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      margin-bottom: 0;
+    }
+    
+    /* Auth Page */
+    .auth-container {
+      max-width: 420px;
+      padding: 2.5rem 1.5rem;
+    }
+    
+    .auth-logo {
+      width: 36px;
+      height: 36px;
+      margin-bottom: 2rem;
+    }
+    
+    .auth-title {
+      font-weight: 600;
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .auth-btn {
+      background-color: var(--brand-purple);
+      color: white;
+      border: none;
+      font-weight: 500;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      width: 100%;
+      margin-top: 1.5rem;
+    }
+    
+    .auth-btn:hover {
+      background-color: #5b4693;
+      color: white;
+    }
+    
+    .auth-input {
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid var(--border-color);
+      margin-top: 0.5rem;
+    }
+    
+    .form-label {
+      font-weight: 500;
+    }
+    
+    /* Chat Page */
+    .sidebar {
+      background-color: white;
+      border-right: 1px solid var(--border-color);
+      height: 100vh;
+      overflow-y: auto;
+      padding: 1rem 0.75rem;
+    }
+    
+    .chat-container {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .chat-header {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+    
+    .conversation-area {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+    
+    .message {
+      max-width: 90%;
+    }
+    
+    .user-message {
+      background-color: var(--brand-purple-light);
+      padding: 1.25rem;
+      border-radius: 0.75rem 0.75rem 0.75rem 0;
+      align-self: flex-end;
+      margin-left: auto;
+    }
+    
+    .assistant-message {
+      background-color: white;
+      border: 1px solid var(--border-color);
+      padding: 1.25rem;
+      border-radius: 0.75rem 0.75rem 0 0.75rem;
+      align-self: flex-start;
+    }
+    
+    .message p {
+      margin-bottom: 0.75rem;
+    }
+    
+    .message p:last-child {
+      margin-bottom: 0;
+    }
+    
+    .message-input-container {
+      padding: 1.5rem 2rem;
+      border-top: 1px solid var(--border-color);
+      position: relative;
+    }
+    
+    .message-input {
+      border-radius: 1.5rem;
+      border: 1px solid var(--border-color);
+      padding: 1rem 3rem 1rem 1.25rem;
+      resize: none;
+      min-height: 60px;
+      max-height: 200px;
+      overflow-y: auto;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+    
+    .message-input:focus {
+      box-shadow: 0 0 0 2px rgba(103, 80, 164, 0.2);
+      border-color: var(--brand-purple);
+    }
+    
+    .send-button {
+      position: absolute;
+      right: 3rem;
+      bottom: 2.25rem;
+      background-color: var(--brand-purple);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    
+    .send-button:hover {
+      background-color: #5b4693;
+    }
+    
+    .new-chat-btn {
+      color: var(--brand-purple);
+      border: 1px solid var(--brand-purple);
+      border-radius: 0.5rem;
+      padding: 0.6rem 1rem;
+      width: 100%;
+      background-color: white;
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+    
+    .new-chat-btn:hover {
+      background-color: var(--brand-purple-light);
+    }
+
+    .chat-history {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    
+    .chat-history-item {
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+    
+    .chat-history-item:hover {
+      background-color: var(--brand-purple-light);
+    }
+    
+    .chat-history-item.active {
+      background-color: var(--brand-purple-light);
+      color: var(--text-dark);
+      font-weight: 500;
+    }
+
+    .time-label {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+      margin: 1rem 0 0.5rem 0.5rem;
+    }
+    
+    .hidden {
+      display: none;
+    }
+
+    .empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      height: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    .empty-state h2 {
+      font-weight: 600;
+      font-size: 1.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .empty-state p {
+      color: var(--text-secondary);
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+
+    .example-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .example-chip {
+      background-color: white;
+      border: 1px solid var(--border-color);
+      border-radius: 1rem;
+      padding: 0.75rem 1rem;
+      font-size: 0.95rem;
+      cursor: pointer;
+    }
+
+    .example-chip:hover {
+      background-color: var(--brand-purple-light);
+      border-color: var(--brand-purple);
+    }
+    
+    @media (max-width: 768px) {
+      .sidebar {
+        position: fixed;
+        width: 85%;
+        z-index: 1000;
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+      }
+      
+      .sidebar.show {
+        transform: translateX(0);
+      }
+
+      .landing-title {
+        font-size: 2rem;
+      }
+      
+      .mobile-menu-btn {
+        display: block !important;
+      }
+
+      .conversation-area {
+        padding: 1.5rem 1rem;
+      }
+
+      .message {
+        max-width: 95%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Landing Page -->
+  <div id="landing-page" class="container-fluid">
+    <div class="landing-container">
+      <!-- Header -->
+      <div class="d-flex justify-content-between align-items-center mb-5">
+        <svg class="landing-logo" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="20" fill="#6750a4"/>
+          <path d="M12,28 L12,12 L28,20 L12,28" fill="white"/>
+        </svg>
+        <div>
+          <button class="btn" id="login-btn" style="color: var(--brand-purple);">Log in</button>
+          <button class="btn landing-button" id="signup-btn">Sign up</button>
+        </div>
+      </div>
+      
+      <!-- Hero section -->
+      <div class="text-center mb-5 pb-4">
+        <h1 class="landing-title">Your AI assistant for getting things done</h1>
+        <p class="landing-subtitle mx-auto">Claude is a next-generation AI assistant, built to be helpful, harmless, and honest.</p>
+        <button class="btn landing-button px-4 py-3" id="try-claude-btn">Try Claude</button>
+      </div>
+      
+      <!-- Examples -->
+      <div class="landing-examples">
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="example-card">
+              <h3>Draft and edit content</h3>
+              <p>Generate blog posts, emails, reports, or creative writing. Claude can help refine your work with editing suggestions.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="example-card">
+              <h3>Analyze data and research</h3>
+              <p>Summarize articles, extract insights from data, and get answers to your complex research questions.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="example-card">
+              <h3>Programming assistance</h3>
+              <p>Get help with coding problems, debugging, and learning new programming concepts and languages.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Auth Page -->
+  <div id="auth-page" class="container-fluid d-flex align-items-center justify-content-center vh-100 hidden">
+    <div class="auth-container">
+      <div class="text-center mb-2">
+        <svg class="auth-logo" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="20" cy="20" r="20" fill="#6750a4"/>
+          <path d="M12,28 L12,12 L28,20 L12,28" fill="white"/>
+        </svg>
+      </div>
+      <h1 class="auth-title text-center">Sign in to Claude</h1>
+      <form id="auth-form">
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control auth-input" id="email" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control auth-input" id="password" required>
+        </div>
+        <div class="text-end mb-2">
+          <a href="#" class="text-decoration-none" style="color: var(--brand-purple); font-size: 0.95rem;">Forgot password?</a>
+        </div>
+        <button type="submit" class="btn auth-btn">Sign in</button>
+        <div class="text-center mt-4">
+          <span style="color: var(--text-secondary); font-size: 0.95rem;">Don't have an account? </span>
+          <a href="#" class="text-decoration-none" style="color: var(--brand-purple); font-size: 0.95rem;">Sign up</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Chat Page -->
+  <div id="chat-page" class="container-fluid p-0 hidden">
+    <div class="row g-0">
+      <!-- Sidebar -->
+      <div id="sidebar" class="col-md-3 col-lg-2 sidebar">
+        <div class="py-2">
+          <button class="btn new-chat-btn">
+            <i class="bi bi-plus-lg me-2"></i> New chat
+          </button>
+          
+          <div class="chat-history">
+            <p class="time-label">Today</p>
+            <div class="chat-history-item active">
+              Building a Claude interface clone
+            </div>
+            <div class="chat-history-item">
+              Responsive design tips
+            </div>
+            
+            <p class="time-label">Yesterday</p>
+            <div
