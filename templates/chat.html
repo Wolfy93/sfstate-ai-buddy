@@ -1,0 +1,73 @@
+  <!-- Chat Page -->
+  <div id="chat-page" class="container-fluid p-0 hidden">
+    <div class="row g-0">
+      <!-- Sidebar -->
+      <div id="sidebar" class="col-md-3 col-lg-2 sidebar py-3 px-3">
+        <button class="btn new-chat-btn mb-3">
+          <i class="bi bi-plus-lg me-2"></i> New chat
+        </button>
+        
+        <div class="chat-history mt-4">
+          <p class="text-muted small mb-2">Today</p>
+          <div class="chat-history-item active">
+            Building a Claude interface clone
+          </div>
+          <div class="chat-history-item">
+            Responsive design tips
+          </div>
+          
+          <p class="text-muted small mb-2 mt-3">Yesterday</p>
+          <div class="chat-history-item">
+            JavaScript event handling
+          </div>
+          <div class="chat-history-item">
+            CSS animation techniques
+          </div>
+        </div>
+      </div>
+      
+      <!-- Main Chat Area -->
+      <div class="col-md-9 col-lg-10 p-0">
+        <div class="chat-container">
+          <!-- Chat Header -->
+          <div class="chat-header d-flex align-items-center">
+            <button id="mobile-menu-btn" class="btn d-none me-2">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+              </svg>
+            </button>
+            <h5 class="mb-0">Building a Claude interface clone</h5>
+          </div>
+          
+          <!-- Conversation Area -->
+          <div class="conversation-area d-flex flex-column">
+            <div class="message user-message">
+              <p class="mb-0">Can you create a HTML, CSS, and JS template using Bootstrap, that has interface similar to yours exactly, for sign in and chat pages?</p>
+            </div>
+            
+            <div class="message assistant-message">
+              <p class="mb-0">I'll create a Bootstrap template that mimics the Claude interface for both sign-in and chat pages. Let me build this for you using HTML, CSS, and JavaScript.</p>
+              <p class="mb-0 mt-3">The template includes:</p>
+              <ul>
+                <li>A sign-in page with email/password fields</li>
+                <li>A chat interface with sidebar and conversation area</li>
+                <li>Responsive design that works on mobile and desktop</li>
+                <li>Purple-based color scheme similar to Claude</li>
+              </ul>
+              <p class="mb-0 mt-3">You can switch between the pages using the sign-in form or toggle the views with JavaScript.</p>
+            </div>
+          </div>
+          
+          <!-- Message Input Area -->
+          <div class="message-input-container position-relative">
+            <textarea class="form-control message-input" placeholder="Message Claude..."></textarea>
+            <button class="send-button">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M15.964.686a.5.5 0 0 0-.65-.65L.767 5.855H.766l-.452.18a.5.5 0 0 0-.082.887l.41.26.001.002 4.995 3.178 3.178 4.995.002.002.26.41a.5.5 0 0 0 .886-.083l6-15Zm-1.833 1.89L6.637 10.07l-.215-.338a.5.5 0 0 0-.154-.154l-.338-.215 7.494-7.494 1.178-.471-.47 1.178Z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
